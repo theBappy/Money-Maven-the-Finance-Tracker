@@ -3,6 +3,10 @@ import express, { NextFunction, Response, Request } from "express";
 import cors from "cors";
 import { Env } from "./config/env-config";
 import { HTTPSTATUS } from "./config/http-config";
+import { errorHandler } from "./middleware/error-handler-middleware";
+import { BadRequestException } from "./utils/app-error";
+import { asyncHandler } from "./middleware/async-handler-middleware";
+import { connectDB } from "./config/db-config";
 
 const app = express();
 const BASE_PATH = Env.BASE_PATH;
@@ -17,12 +21,19 @@ app.use(
   })
 );
 
-app.get("/", (req: Request, res: Response, next: NextFunction) => {
-  res.status(HTTPSTATUS.OK).json({
-    message: "Hello World from the Money Maven-the ultimate finance tracker!",
-  });
-});
+app.get(
+  "/",
+  asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    throw new BadRequestException("This is a test error");
+    res.status(HTTPSTATUS.OK).json({
+      message: "Hello World!",
+    });
+  })
+);
 
-app.listen(Env.PORT, () => {
-    console.log(`Server is running on port ${Env.PORT} in ${Env.NODE_ENV} mode`)
-})
+app.use(errorHandler);
+
+app.listen(Env.PORT, async() => {
+  await connectDB();
+  console.log(`Server is running on port ${Env.PORT} in ${Env.NODE_ENV} mode`);
+});
