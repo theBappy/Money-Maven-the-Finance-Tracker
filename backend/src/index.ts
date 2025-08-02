@@ -7,6 +7,7 @@ import { errorHandler } from "./middleware/error-handler-middleware";
 import { BadRequestException } from "./utils/app-error";
 import { asyncHandler } from "./middleware/async-handler-middleware";
 import { connectDB } from "./config/db-config";
+import authRoutes from "./routes/auth-routes";
 
 const app = express();
 const BASE_PATH = Env.BASE_PATH;
@@ -30,6 +31,8 @@ app.get(
     });
   })
 );
+
+app.use(`${BASE_PATH}/auth`, authRoutes)
 
 app.use(errorHandler);
 
