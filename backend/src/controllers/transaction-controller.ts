@@ -1,8 +1,23 @@
 import { Request, Response } from "express";
 import { asyncHandler } from "../middleware/async-handler-middleware";
 import { HTTPSTATUS } from "../config/http-config";
-import { createTransactionSchema } from "../validators/transaction-validator";
-import { createTransactionService, getAllTransactionService } from "../services/transaction-service";
+import {
+
+    bulkDeleteTransactionSchema,
+  createTransactionSchema,
+  transactionIdSchema,
+  //   updateTransactionSchema,
+} from "../validators/transaction-validator";
+import {
+
+    bulkDeleteTransactionService,
+  createTransactionService,
+  deleteTransactionService,
+  duplicateTransactionService,
+  getAllTransactionService,
+  getTransactionByIdService,
+  //   updateTransactionService,
+} from "../services/transaction-service";
 import { TransactionTypeEnum } from "../models/transaction-model";
 
 export const createTransactionController = asyncHandler(
@@ -44,3 +59,78 @@ export const getAllTransactionController = asyncHandler(
     });
   }
 );
+
+export const getTransactionByIdController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userId = req.user?._id;
+    const transactionId = transactionIdSchema.parse(req.params.id);
+    const transaction = await getTransactionByIdService(userId, transactionId);
+    return res.status(HTTPSTATUS.OK).json({
+      message: "Transaction fetched successfully",
+      transaction,
+    });
+  }
+);
+
+export const deleteTransactionController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userId = req.user?._id;
+    const transactionId = transactionIdSchema.parse(req.params.id);
+
+    await deleteTransactionService(userId, transactionId);
+
+    return res.status(HTTPSTATUS.OK).json({
+      message: "Transaction deleted successfully",
+    });
+  }
+);
+
+export const duplicateTransactionController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userId = req.user?._id;
+    const transactionId = transactionIdSchema.parse(req.params.id);
+    const deleteTransaction = await deleteTransactionService(
+      userId,
+      transactionId
+    );
+    return res.status(HTTPSTATUS.OK).json({
+      message: "Transaction deleted successfully",
+      deleteTransaction,
+    });
+  }
+);
+
+export const bulkDeleteTransactionController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userId = req.user?._id;
+    const { transactionIds } = bulkDeleteTransactionSchema.parse(req.body);
+
+    const result = await bulkDeleteTransactionService(userId, transactionIds);
+
+    return res.status(HTTPSTATUS.OK).json({
+      message: "Transaction deleted successfully",
+      ...result,
+    });
+  }
+);
+
+
+// export const updateTransactionController = asyncHandler(
+//   async (req: Request, res: Response) => {
+//     const userId = req.user?._id;
+//     const transactionId = transactionIdSchema.parse(req.params.id);
+
+//     const body = updateTransactionSchema.parse(req.body);
+
+//     const updatedTransaction = await updateTransactionService(
+//       userId,
+//       transactionId,
+//       body
+//     );
+
+//     return res.status(HTTPSTATUS.OK).json({
+//       message: "Transaction updated successfully",
+//       updatedTransaction,
+//     });
+//   }
+// );
