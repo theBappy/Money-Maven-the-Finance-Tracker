@@ -12,6 +12,7 @@ import authRoutes from "./routes/auth-routes";
 import passport from "passport";
 import userRoutes from "./routes/user-routes";
 import { passportAuthenticateJwt } from "./config/passport-config";
+import transactionRoutes from "./routes/transactin-routes";
 
 const app = express();
 const BASE_PATH = Env.BASE_PATH;
@@ -39,6 +40,7 @@ app.get(
 
 app.use(`${BASE_PATH}/auth`, authRoutes)
 app.use(`${BASE_PATH}/user`, passportAuthenticateJwt, userRoutes)
+app.use(`${BASE_PATH}/transaction`, passportAuthenticateJwt, transactionRoutes)
 
 app.use(errorHandler);
 
