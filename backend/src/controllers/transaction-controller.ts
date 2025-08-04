@@ -2,20 +2,21 @@ import { Request, Response } from "express";
 import { asyncHandler } from "../middleware/async-handler-middleware";
 import { HTTPSTATUS } from "../config/http-config";
 import {
-
-    bulkDeleteTransactionSchema,
+  bulkDeleteTransactionSchema,
+  bulkTransactionSchema,
   createTransactionSchema,
   transactionIdSchema,
   //   updateTransactionSchema,
 } from "../validators/transaction-validator";
 import {
-
-    bulkDeleteTransactionService,
+  bulkDeleteTransactionService,
+  bulkTransactionService,
   createTransactionService,
   deleteTransactionService,
   duplicateTransactionService,
   getAllTransactionService,
   getTransactionByIdService,
+  scanReceiptService,
   //   updateTransactionService,
 } from "../services/transaction-service";
 import { TransactionTypeEnum } from "../models/transaction-model";
@@ -114,6 +115,32 @@ export const bulkDeleteTransactionController = asyncHandler(
   }
 );
 
+export const bulkTransactionController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userId = req.user?._id;
+    const { transactions } = bulkTransactionSchema.parse(req.body);
+
+    const result = await bulkTransactionService(userId, transactions);
+
+    return res.status(HTTPSTATUS.OK).json({
+      message: "Bulk transaction inserted successfully",
+      ...result,
+    });
+  }
+);
+
+export const scanReceiptController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const file = req?.file;
+
+    const result = await scanReceiptService(file);
+
+    return res.status(HTTPSTATUS.OK).json({
+      message: "Receipt scanned successfully",
+      data: result,
+    });
+  }
+);
 
 // export const updateTransactionController = asyncHandler(
 //   async (req: Request, res: Response) => {
