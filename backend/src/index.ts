@@ -1,5 +1,5 @@
 import "dotenv/config";
-import "./config/passport-config"
+import "./config/passport-config";
 import express, { NextFunction, Response, Request } from "express";
 import cors from "cors";
 import { Env } from "./config/env-config";
@@ -13,13 +13,14 @@ import passport from "passport";
 import userRoutes from "./routes/user-routes";
 import { passportAuthenticateJwt } from "./config/passport-config";
 import transactionRoutes from "./routes/transactin-routes";
+import { initializeCrons } from "./cron";
 
 const app = express();
 const BASE_PATH = Env.BASE_PATH;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(passport.initialize())
+app.use(passport.initialize());
 
 app.use(
   cors({
@@ -38,13 +39,16 @@ app.get(
   })
 );
 
-app.use(`${BASE_PATH}/auth`, authRoutes)
-app.use(`${BASE_PATH}/user`, passportAuthenticateJwt, userRoutes)
-app.use(`${BASE_PATH}/transaction`, passportAuthenticateJwt, transactionRoutes)
+app.use(`${BASE_PATH}/auth`, authRoutes);
+app.use(`${BASE_PATH}/user`, passportAuthenticateJwt, userRoutes);
+app.use(`${BASE_PATH}/transaction`, passportAuthenticateJwt, transactionRoutes);
 
 app.use(errorHandler);
 
-app.listen(Env.PORT, async() => {
+app.listen(Env.PORT, async () => {
   await connectDB();
+  if (Env.NODE_ENV === `development`) {
+    await initializeCrons();
+  }
   console.log(`Server is running on port ${Env.PORT} in ${Env.NODE_ENV} mode`);
 });
