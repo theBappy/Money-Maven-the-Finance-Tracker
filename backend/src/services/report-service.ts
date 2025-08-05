@@ -53,14 +53,16 @@ export const updateReportSettingService = async (
   const { isEnabled } = body;
   let nextReportDate: Date | null = null;
 
-  const existingReportSetting = await ReportSettingModel.findOne({
-    userId,
-  });
-  if (!existingReportSetting)
-    throw new NotFoundException("Report setting not found");
+  let existingReportSetting = await ReportSettingModel.findOne({ userId });
 
-  // const frequency =
-  //   existingReportSetting.frequency || ReportFrequencyEnum.MONTHLY;
+  if (!existingReportSetting) {
+    existingReportSetting = new ReportSettingModel({
+      userId,
+      isEnabled: false,
+      nextReportDate: null,
+      lastSentDate: null,
+    });
+  }
 
   if (isEnabled) {
     const currentNextReportDate = existingReportSetting.nextReportDate;
@@ -73,6 +75,7 @@ export const updateReportSettingService = async (
       nextReportDate = currentNextReportDate;
     }
   }
+
   existingReportSetting.set({
     ...body,
     nextReportDate,
@@ -177,7 +180,8 @@ export const generateReportSettingService = async (
     (acc: any, { _id, total }: any) => {
       acc[_id] = {
         amount: convertToDollarUnit(total),
-        percentage: totalExpenses > 0 ? Math.round((total / totalExpenses) * 100) : 0
+        percentage:
+          totalExpenses > 0 ? Math.round((total / totalExpenses) * 100) : 0,
       };
       return acc;
     },
