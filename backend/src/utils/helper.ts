@@ -8,6 +8,7 @@ export function calculateNextReportDate(lastSentDate?: Date): Date {
   const nextDate = startOfMonth(addMonths(lastSent, 1));
   nextDate.setHours(0, 0, 0, 0);
 
+  console.log(nextDate, "nexDate")
   return nextDate;
 }
 
@@ -30,4 +31,8 @@ export function calculateNextOccurrence(
     default:
       return base;
   }
+}
+
+export function capitalizeFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
