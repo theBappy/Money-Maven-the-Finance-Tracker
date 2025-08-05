@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { asyncHandler } from "../middleware/async-handler-middleware";
 import { HTTPSTATUS } from "../config/http-config";
 import {
+  generateReportSettingService,
   getAllReportService,
   updateReportSettingService,
 } from "../services/report-service";
@@ -37,3 +38,33 @@ export const updateReportSettingController = asyncHandler(
     });
   }
 );
+
+export const generateReportController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userId = req.user?._id;
+    const { from, to } = req.query;
+
+    if (!from || !to) {
+      return res.status(HTTPSTATUS.BAD_REQUEST).json({
+        message: "Both 'from' and 'to' dates are required",
+      });
+    }
+
+    const fromDate = new Date(from as string);
+    const toDate = new Date(to as string);
+
+    if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
+      return res.status(HTTPSTATUS.BAD_REQUEST).json({
+        message: "Invalid date format. Please use ISO format.",
+      });
+    }
+
+    const result = await generateReportSettingService(userId, fromDate, toDate);
+
+    return res.status(HTTPSTATUS.OK).json({
+      message: "Reports generated successfully",
+      ...result
+    });
+  }
+);
+
