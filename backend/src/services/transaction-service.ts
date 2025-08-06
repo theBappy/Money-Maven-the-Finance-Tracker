@@ -31,6 +31,7 @@ export const createTransactionService = async (
         ? calculateNextOccurrence(currentDate, body.recurringInterval)
         : calculatedDate;
   }
+
   const transaction = await TransactionModel.create({
     ...body,
     userId,
@@ -41,8 +42,10 @@ export const createTransactionService = async (
     nextRecurringDate,
     lastProcessed: null,
   });
+
   return transaction;
 };
+
 
 export const getAllTransactionService = async (
   userId: string,

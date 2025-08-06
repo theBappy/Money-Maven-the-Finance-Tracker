@@ -34,6 +34,7 @@ export const createTransactionController = asyncHandler(
     });
   }
 );
+
 export const getAllTransactionController = asyncHandler(
   async (req: Request, res: Response) => {
     const userId = req.user?._id;
