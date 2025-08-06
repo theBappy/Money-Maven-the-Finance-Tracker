@@ -12,9 +12,10 @@ import authRoutes from "./routes/auth-routes";
 import passport from "passport";
 import userRoutes from "./routes/user-routes";
 import { passportAuthenticateJwt } from "./config/passport-config";
-import transactionRoutes from "./routes/transactin-routes";
+import transactionRoutes from "./routes/transaction-routes";
 import { initializeCrons } from "./cron";
 import reportRoutes from "./routes/report-routes";
+import analyticsRoutes from "./routes/analytics-route";
 
 
 const app = express();
@@ -47,6 +48,7 @@ app.use(`${BASE_PATH}/auth`, authRoutes);
 app.use(`${BASE_PATH}/user`, passportAuthenticateJwt, userRoutes);
 app.use(`${BASE_PATH}/transaction`, passportAuthenticateJwt, transactionRoutes);
 app.use(`${BASE_PATH}/report`, passportAuthenticateJwt, reportRoutes);
+app.use(`${BASE_PATH}/analytics`, passportAuthenticateJwt, analyticsRoutes);
 
 app.use(errorHandler);
 
