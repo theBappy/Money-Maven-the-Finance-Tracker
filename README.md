@@ -1,4 +1,4 @@
-[overview_image]
+[overview_image]<br>
 💰 Money Maven — Personal Finance Tracker
 A powerful and beautiful full-stack finance tracking app built with MERN Stack + AI.
 
@@ -26,7 +26,9 @@ Money Maven is a modern, intelligent finance management platform that helps user
 ➕ Duplicate Transaction Option
 🧑‍💼 Profile Avatar Upload – Stored in Cloudinary
 💳 Stripe-Powered Premium Plans – Free Trial, Monthly/Yearly Billing, Plan Switching
-🌐 Built with Modern MERN Stack – Modular, Scalable, and Type-Safe
+🌐 Built with Modern MERN Stack – Modular, Scalable, and Type-Safe<br>
+
+[some screeen ss]<br>
 
 🚀 Getting Started
 1. Clone the Repository
