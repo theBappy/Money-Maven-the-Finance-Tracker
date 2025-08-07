@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { HTTPSTATUS } from "../config/http-config";
 import { asyncHandler } from "../middleware/async-handler-middleware";
 import { DateRangePreset } from "../@types/analytics-type";
-import { chartAnalyticsService, summaryAnalyticsService } from "../services/analytics-service";
+import { chartAnalyticsService, expensePieChartBreakdownService, summaryAnalyticsService } from "../services/analytics-service";
 
 
 export const summaryAnalyticsController = asyncHandler(
@@ -51,6 +51,30 @@ export const chartAnalyticsController = asyncHandler(
     return res.status(HTTPSTATUS.OK).json({
       message: "Chart fetched successfully",
       data: chartData,
+    });
+  }
+);
+
+export const expensePieChartBreakdownController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userId = req.user?._id;
+    const { preset, from, to } = req.query;
+
+    const filter = {
+      dateRangePreset: preset as DateRangePreset,
+      customFrom: from ? new Date(from as string) : undefined,
+      customTo: to ? new Date(to as string) : undefined,
+    };
+    const pieChartData = await expensePieChartBreakdownService(
+      userId,
+      filter.dateRangePreset,
+      filter.customFrom,
+      filter.customTo
+    );
+
+    return res.status(HTTPSTATUS.OK).json({
+      message: "Expense breakdown fetched successfully",
+      data: pieChartData,
     });
   }
 );
