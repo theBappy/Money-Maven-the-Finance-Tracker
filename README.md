@@ -98,41 +98,38 @@ money-maven/
 │   ├── pages/
 │   ├── redux/
 │   └── hooks/
+
+
 📬 Monthly Report Example
 Monthly reports are auto-generated at midnight on the 1st of every month and emailed directly to the user using a scheduled Cron Job and Nodemailer.
 
+
 🧠 AI-Powered Receipt Scanning
 Uses Google’s Gemini AI to intelligently extract transaction data (title, amount, date, etc.) from uploaded receipt images.
-
 💳 Stripe Integration
 🆓 Free Trial
-
 📅 Monthly Plan
-
 📆 Yearly Plan
-
 🔁 Easy Plan Switching
 
-All plans are managed securely through the Stripe Dashboard.
 
+All plans are managed securely through the Stripe Dashboard.
 👤 Profile & Cloudinary Integration
 Upload custom avatar
-
 Avatar is optimized and stored via Cloudinary CDN
+
 
 🧪 Future Enhancements
 🔐 OAuth Login (Google, GitHub)
-
 📱 Mobile Responsive PWA
-
 🌍 Multi-currency support
-
 🧾 OCR accuracy upgrades
+
 
 🤝 Contributing
 PRs are welcome! For major changes, please open an issue first to discuss your ideas.
 
 📄 License
-MIT © [Your Name or Organization]
+MIT © [theBappy]
 
 Let me know if you’d like this in .docx, .pdf, or .md file format — I can export it right now.
