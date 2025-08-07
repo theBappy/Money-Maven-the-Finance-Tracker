@@ -1,3 +1,4 @@
+[overview_image]
 💰 Money Maven — Personal Finance Tracker
 A powerful and beautiful full-stack finance tracking app built with MERN Stack + AI.
 
