@@ -8,6 +8,7 @@ import { DateRangeEnum } from "../enums/date-range-enum";
 import { differenceInDays, subDays, subYears } from "date-fns";
 import { convertToDollarUnit } from "../utils/format-currency";
 import { transformer } from "zod";
+import { PipelineStage } from "mongoose";
 
 export const summaryAnalyticsService = async (
   userId: string,
@@ -28,7 +29,7 @@ export const summaryAnalyticsService = async (
   }
 
   // --- Build aggregation pipeline for current period
-  const currentPeriodPipeline: any[] = [
+  const currentPeriodPipeline: PipelineStage[] = [
     {
       $match: {
         userId: new mongoose.Types.ObjectId(userId),
@@ -351,16 +352,142 @@ export const chartAnalyticsService = async (
 
   const resultData = result[0] || {};
 
-  const transaformedData = (resultData?.chartData || []).map((item: any) => ({
+  const transformedData = (resultData?.chartData || []).map((item: any) => ({
     date: item.date,
     income: convertToDollarUnit(item.income),
     expenses: convertToDollarUnit(item.expenses),
   }));
 
   return {
-    chartData: transaformedData,
+    chartData: transformedData,
     totalIncomeCount: resultData.totalIncomeCount,
     totalExpenseCount: resultData.totalExpenseCount,
+    preset: {
+      ...range,
+      value: rangeValue || DateRangeEnum.ALL_TIME,
+      label: range?.label || "All Time",
+    },
+  };
+};
+
+export const expensePieChartBreakdownService = async (
+  userId: string,
+  dateRangePreset?: DateRangePreset,
+  customFrom?: Date,
+  customTo?: Date
+) => {
+  const range = getDateRange(dateRangePreset, customFrom, customTo);
+  const { from, to, value: rangeValue } = range;
+
+  const filter: any = {
+    userId: new mongoose.Types.ObjectId(userId),
+    type: TransactionTypeEnum.EXPENSE,
+    ...(from &&
+      to && {
+        date: {
+          $gte: from,
+          $lte: to,
+        },
+      }),
+  };
+
+  const pipeline: PipelineStage[] = [
+    {
+      $match: filter,
+    },
+    {
+      $group: {
+        _id: "$category",
+        value: { $sum: { $abs: "$amount" } },
+      },
+    },
+    { $sort: { value: -1 } }, // desc
+    // top-3 categories
+    {
+      $facet: {
+        topThree: [{ $limit: 3 }],
+        others: [
+          { $skip: 3 },
+          {
+            $group: {
+              _id: "others",
+              value: { $sum: "$value" },
+            },
+          },
+        ],
+      },
+    },
+
+    {
+      $project: {
+        categories: {
+          $concatArrays: ["$topThree", "$others"],
+        },
+      },
+    },
+
+    { $unwind: "$categories" },
+
+    {
+      $group: {
+        _id: null,
+        totalSpent: { $sum: "$categories.value" },
+        breakdown: { $push: "$categories" },
+      },
+    },
+
+    {
+      $project: {
+        _id: 0,
+        totalSpent: 1,
+        breakdown: {
+          // .map((cat: any)=> )
+          $map: {
+            input: "$breakdown",
+            as: "cat",
+            in: {
+              name: "$$cat._id",
+              value: "$$cat.value",
+              percentage: {
+                $cond: [
+                  { $eq: ["$totalSpent", 0] },
+                  0,
+                  {
+                    $round: [
+                      {
+                        $multiply: [
+                          { $divide: ["$$cat.value", "$totalSpent"] },
+                          100,
+                        ],
+                      },
+                      0,
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+    },
+  ];
+
+  const result = await TransactionModel.aggregate(pipeline);
+
+  const data = result[0] || {
+    totalSpent: 0,
+    breakdown: [],
+  };
+  const transformedData = {
+    totalSpent: convertToDollarUnit(data.totalSpent),
+    breakdown: data.breakdown.map((item: any) => ({
+      ...item,
+      value: convertToDollarUnit(item.value),
+    })),
+  };
+
+  return {
+    ...transformedData,
     preset: {
       ...range,
       value: rangeValue || DateRangeEnum.ALL_TIME,
