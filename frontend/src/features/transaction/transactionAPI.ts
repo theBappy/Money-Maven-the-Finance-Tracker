@@ -30,8 +30,7 @@ export const transactionApi = apiClient.injectEndpoints({
 
     getAllTransactions: builder.query<
       GetAllTransactionResponse,
-      GetAllTransactionParams
-    >({
+      GetAllTransactionParams>({
       query: (params) => {
         const {
           keyword = undefined,
