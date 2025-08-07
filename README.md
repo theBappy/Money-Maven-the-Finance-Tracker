@@ -48,7 +48,9 @@ Money Maven is a modern, intelligent finance management platform that helps user
 🌐 Built with Modern MERN Stack – Modular, Scalable, and Type-Safe
 
 👁‍🗨 Preview Image
-<img width="1024" height="1024" alt="money" src="https://github.com/user-attachments/assets/aa03239a-3f47-4cf9-a051-3b0602cd6d6a" />
+<img width="500" height="500" alt="money" src="https://github.com/user-attachments/assets/aa03239a-3f47-4cf9-a051-3b0602cd6d6a" />
+<img width="500" height="500" alt="preview1" src="https://github.com/user-attachments/assets/9a3246a8-69eb-4a3d-bcf2-e80419491ef2" />
+<img width="300" height="300" alt="preview5" src="https://github.com/user-attachments/assets/e1023784-6643-4861-912e-329ee77cd979" />
 
 🚀 Getting Started
 1. Clone the Repository
