@@ -1,7 +1,7 @@
 💰 Money Maven — Personal Finance Tracker
 A powerful and beautiful full-stack finance tracking app built with MERN Stack + AI.
 
-<!-- 🔧 Replace this with your project image URL -->
+<img width="1024" height="1024" alt="ChatGPT Image Aug 7, 2025, 10_42_36 PM" src="https://github.com/user-attachments/assets/07df42c1-52aa-4e18-8e23-0b744e0c9972" />
 
 🧠 Overview
 Money Maven is a modern, intelligent finance management platform that helps users effortlessly track their income, expenses, and recurring transactions. With built-in analytics, AI receipt scanning, and monthly financial reports, managing your money has never been easier.
