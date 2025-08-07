@@ -45,7 +45,7 @@ Money Maven is a modern, intelligent finance management platform that helps user
 
 💳 Stripe-Powered Premium Plans – Free Trial, Monthly/Yearly Billing, Plan Switching
 
-🌐 Built with Modern MERN Stack – Modular, Scalable, and Type-Safe
+🌐 Built with Modern MERN Stack – Modular, Scalable, and Type-Safe<br>
 
 👁‍🗨 Preview Image
 <img width="500" height="500" alt="money" src="https://github.com/user-attachments/assets/aa03239a-3f47-4cf9-a051-3b0602cd6d6a" />
