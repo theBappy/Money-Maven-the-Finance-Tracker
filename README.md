@@ -48,7 +48,7 @@ Money Maven is a modern, intelligent finance management platform that helps user
 bash
 Copy
 Edit
-git clone https://github.com/your-username/money-maven.git
+git clone https://github.com/theBappy/Money-Maven-the-Finance-Tracker
 cd money-maven
 2. Install Dependencies
 bash
