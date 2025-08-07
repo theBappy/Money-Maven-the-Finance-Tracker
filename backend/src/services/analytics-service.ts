@@ -7,6 +7,7 @@ import { getDateRange } from "../utils/date";
 import { DateRangeEnum } from "../enums/date-range-enum";
 import { differenceInDays, subDays, subYears } from "date-fns";
 import { convertToDollarUnit } from "../utils/format-currency";
+import { transformer } from "zod";
 
 export const summaryAnalyticsService = async (
   userId: string,
@@ -18,19 +19,12 @@ export const summaryAnalyticsService = async (
 
   let { from, to, value: rangeValue } = range;
 
-  // --- DEBUG: Log types and values of from/to/rangeValue
-  console.log("Range from:", from, "type:", typeof from, from instanceof Date);
-  console.log("Range to:", to, "type:", typeof to, to instanceof Date);
-  console.log("Range value:", rangeValue);
-
   // Ensure from and to are Date objects for date-fns usage
   if (typeof from === "string") {
     from = new Date(from);
-    console.log("Converted from string to Date:", from);
   }
   if (typeof to === "string") {
     to = new Date(to);
-    console.log("Converted to string to Date:", to);
   }
 
   // --- Build aggregation pipeline for current period
@@ -120,7 +114,6 @@ export const summaryAnalyticsService = async (
 
   // Run aggregation for current period
   const [current] = await TransactionModel.aggregate(currentPeriodPipeline);
-  console.log("Current period aggregation result:", current);
 
   const {
     totalIncome = 0,
@@ -149,7 +142,6 @@ export const summaryAnalyticsService = async (
   // Calculate previous period if applicable
   if (from && to && rangeValue !== DateRangeEnum.ALL_TIME) {
     const period = differenceInDays(to, from) + 1;
-    console.log("Period days:", period);
 
     const isYearly = [
       DateRangeEnum.LAST_YEAR,
@@ -164,8 +156,6 @@ export const summaryAnalyticsService = async (
       prevPeriodFrom = subDays(from, period);
       prevPeriodTo = subDays(to, period);
     }
-    console.log("Previous period from:", prevPeriodFrom);
-    console.log("Previous period to:", prevPeriodTo);
 
     const prevPeriodPipeline = [
       {
@@ -204,7 +194,6 @@ export const summaryAnalyticsService = async (
 
     // Run aggregation for previous period
     const [previous] = await TransactionModel.aggregate(prevPeriodPipeline);
-    console.log("Previous period aggregation result:", previous);
 
     if (previous) {
       const prevIncome = previous.totalIncome || 0;
@@ -254,6 +243,124 @@ export const summaryAnalyticsService = async (
         ),
       },
     },
+    preset: {
+      ...range,
+      value: rangeValue || DateRangeEnum.ALL_TIME,
+      label: range?.label || "All Time",
+    },
+  };
+};
+
+export const chartAnalyticsService = async (
+  userId: string,
+  dateRangePreset?: DateRangePreset,
+  customFrom?: Date,
+  customTo?: Date
+) => {
+  const range = getDateRange(dateRangePreset, customFrom, customTo);
+  const { from, to, value: rangeValue } = range;
+
+  const filter: any = {
+    userId: new mongoose.Types.ObjectId(userId),
+    ...(from &&
+      to && {
+        date: {
+          $gte: from,
+          $lte: to,
+        },
+      }),
+  };
+
+  const result = await TransactionModel.aggregate([
+    { $match: filter },
+    //Group the transaction by date (YYYY-MM-DD)
+    {
+      $group: {
+        _id: {
+          $dateToString: {
+            format: "%Y-%m-%d",
+            date: "$date",
+          },
+        },
+
+        income: {
+          $sum: {
+            $cond: [
+              { $eq: ["$type", TransactionTypeEnum.INCOME] },
+              { $abs: "$amount" },
+              0,
+            ],
+          },
+        },
+
+        expenses: {
+          $sum: {
+            $cond: [
+              { $eq: ["$type", TransactionTypeEnum.EXPENSE] },
+              { $abs: "$amount" },
+              0,
+            ],
+          },
+        },
+
+        incomeCount: {
+          $sum: {
+            $cond: [{ $eq: ["$type", TransactionTypeEnum.INCOME] }, 1, 0],
+          },
+        },
+
+        expenseCount: {
+          $sum: {
+            $cond: [{ $eq: ["$type", TransactionTypeEnum.EXPENSE] }, 1, 0],
+          },
+        },
+      },
+    },
+
+    { $sort: { _id: 1 } },
+
+    {
+      $project: {
+        _id: 0,
+        date: "$_id",
+        income: 1,
+        expenses: 1,
+        incomeCount: 1,
+        expenseCount: 1,
+      },
+    },
+
+    {
+      $group: {
+        _id: null,
+        chartData: { $push: "$$ROOT" },
+        totalIncomeCount: { $sum: "$incomeCount" },
+        totalExpenseCount: { $sum: "$expenseCount" },
+      },
+    },
+
+    {
+      $project: {
+        _id: 0,
+        chartData: 1,
+        totalIncomeCount: 1,
+        totalExpenseCount: 1,
+      },
+    },
+  ]);
+
+  const resultData = result[0] || {};
+
+  const transaformedData = (resultData?.chartData || []).map((item: any) => ({
+    date: item.date,
+    income: convertToDollarUnit(item.income),
+    expenses: convertToDollarUnit(item.expenses),
+  }));
+
+  return {
+    chartData: transaformedData,
+    totalIncomeCount: resultData.totalIncomeCount,
+    totalExpenseCount: resultData.totalExpenseCount,
     preset: {
       ...range,
       value: rangeValue || DateRangeEnum.ALL_TIME,
