@@ -7,40 +7,24 @@ A powerful and beautiful full-stack finance tracking app built with MERN Stack +
 Money Maven is a modern, intelligent finance management platform that helps users effortlessly track their income, expenses, and recurring transactions. With built-in analytics, AI receipt scanning, and monthly financial reports, managing your money has never been easier.
 
 🛠️ Tech Stack
-<p align="left"> <img src="https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white" /> <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" /> <img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black" /> <img src="https://img.shields.io/badge/Redux_Toolkit-764ABC?logo=redux&logoColor=white" /> <img src="https://img.shields.io/badge/Express.js-000000?logo=express&logoColor=white" /> <img src="https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white" /> <img src="https://img.shields.io/badge/Cloudinary-3448C5?logo=cloudinary&logoColor=white" /> <img src="https://img.shields.io/badge/Gemini_AI-FF6B81?logo=google&logoColor=white" /> <img src="https://img.shields.io/badge/Stripe-635BFF?logo=stripe&logoColor=white" /> <img src="https://img.shields.io/badge/Cron-FFFFFF?logo=cron&logoColor=black" /> </p>
-🗝️ Key Features
+<p align="left"> <img src="https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white" /> <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" /> <img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black" /> <img src="https://img.shields.io/badge/Redux_Toolkit-764ABC?logo=redux&logoColor=white" /> <img src="https://img.shields.io/badge/Express.js-000000?logo=express&logoColor=white" /> <img src="https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white" /> <img src="https://img.shields.io/badge/Cloudinary-3448C5?logo=cloudinary&logoColor=white" /> <img src="https://img.shields.io/badge/Gemini_AI-FF6B81?logo=google&logoColor=white" /> <img src="https://img.shields.io/badge/Stripe-635BFF?logo=stripe&logoColor=white" /> <img src="https://img.shields.io/badge/Cron-FFFFFF?logo=cron&logoColor=black" /> </p><br><br><br>
+🗝️ Key Features<br>
 🔐 Authentication – Email + Password login secured with JWT
-
 🏢 Create & Edit Transactions
-
 📤 Upload & Scan Receipts with Gemini AI
-
 📈 Advanced Analytics – Powered by MongoDB Aggregation
-
 📊 Expense Breakdown Pie Chart
-
 📈 Income vs Expense Line Chart
-
 📅 Filter by Date Ranges – e.g., Last 30 Days, This Month, Custom
-
 ♻️ Recurring Transactions – Handled with Cron Jobs
-
 📄 Monthly Reports – Auto-Generated & Emailed
-
 📥 CSV Import of Transactions
-
 🔍 Filter & Search by Title, Category, Type
-
 ⏱️ Pagination Support
-
 🗑️ Bulk Delete Transactions
-
 ➕ Duplicate Transaction Option
-
 🧑‍💼 Profile Avatar Upload – Stored in Cloudinary
-
 💳 Stripe-Powered Premium Plans – Free Trial, Monthly/Yearly Billing, Plan Switching
-
 🌐 Built with Modern MERN Stack – Modular, Scalable, and Type-Safe
 
 🚀 Getting Started
