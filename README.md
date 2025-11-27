@@ -107,23 +107,84 @@ npm run dev
 # Run frontend
 cd ../frontend
 npm run dev
-<br><br><br>
+<br><br>
 
-📁 Folder Structure
-money-maven/
-├── backend/
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── middleware/
-│   └── utils/
-├── frontend/
-│   ├── components/
-│   ├── pages/
-│   ├── redux/
-│   └── hooks/
+<table style="border-collapse: collapse; width: 100%; max-width: 750px;">
+  <thead>
+    <tr style="background:#f3f4f6;">
+      <th style="padding:12px; border:1px solid #e5e7eb; text-align:left;">Folder</th>
+      <th style="padding:12px; border:1px solid #e5e7eb; text-align:left;">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td style="padding:12px; border:1px solid #e5e7eb;"><strong>📁 money-maven/</strong></td>
+      <td style="padding:12px; border:1px solid #e5e7eb;">Root directory containing backend and frontend projects.</td>
+    </tr>
+
+    <tr style="background:#fafafa;">
+      <td style="padding:12px; border:1px solid #e5e7eb;"><strong>📁 backend/</strong></td>
+      <td style="padding:12px; border:1px solid #e5e7eb;">API server, business logic, database layer and utilities.</td>
+    </tr>
+
+    <tr>
+      <td style="padding:12px; border:1px solid #e5e7eb;">📄 backend/controllers/</td>
+      <td style="padding:12px; border:1px solid #e5e7eb;">Handles API request logic.</td>
+    </tr>
+
+    <tr style="background:#fafafa;">
+      <td style="padding:12px; border:1px solid #e5e7eb;">📄 backend/models/</td>
+      <td style="padding:12px; border:1px solid #e5e7eb;">Database schemas / ORM models.</td>
+    </tr>
+
+    <tr>
+      <td style="padding:12px; border:1px solid #e5e7eb;">📄 backend/routes/</td>
+      <td style="padding:12px; border:1px solid #e5e7eb;">Route definitions for all API endpoints.</td>
+    </tr>
+
+    <tr style="background:#fafafa;">
+      <td style="padding:12px; border:1px solid #e5e7eb;">📄 backend/middleware/</td>
+      <td style="padding:12px; border:1px solid #e5e7eb;">Auth, validation, and error middleware.</td>
+    </tr>
+
+    <tr>
+      <td style="padding:12px; border:1px solid #e5e7eb;">📄 backend/utils/</td>
+      <td style="padding:12px; border:1px solid #e5e7eb;">Helper functions (cron jobs, mailer, formatters, etc).</td>
+    </tr>
+
+    <tr style="background:#fafafa;">
+      <td style="padding:12px; border:1px solid #e5e7eb;"><strong>📁 frontend/</strong></td>
+      <td style="padding:12px; border:1px solid #e5e7eb;">React/Next.js web application.</td>
+    </tr>
+
+    <tr>
+      <td style="padding:12px; border:1px solid #e5e7eb;">📄 frontend/components/</td>
+      <td style="padding:12px; border:1px solid #e5e7eb;">UI components.</td>
+    </tr>
+
+    <tr style="background:#fafafa;">
+      <td style="padding:12px; border:1px solid #e5e7eb;">📄 frontend/pages/</td>
+      <td style="padding:12px; border:1px solid #e5e7eb;">Page routes/views.</td>
+    </tr>
+
+    <tr>
+      <td style="padding:12px; border:1px solid #e5e7eb;">📄 frontend/redux/</td>
+      <td style="padding:12px; border:1px solid #e5e7eb;">Global state management.</td>
+    </tr>
+
+    <tr style="background:#fafafa;">
+      <td style="padding:12px; border:1px solid #e5e7eb;">📄 frontend/hooks/</td>
+      <td style="padding:12px; border:1px solid #e5e7eb;">Custom shared React hooks.</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<br><br>
 📬 Monthly Report Example
 Monthly reports are auto-generated at midnight on the 1st of every month and emailed directly to the user using a scheduled Cron Job and Nodemailer.
+<br>
 
 🧠 AI-Powered Receipt Scanning
 Uses Google’s Gemini AI to intelligently extract transaction data (title, amount, date, etc.) from uploaded receipt images.
