@@ -76,22 +76,26 @@ Backend .env
 env
 Copy
 Edit
-PORT=8000
-MONGO_URI=your_mongo_uri
-JWT_SECRET=your_jwt_secret
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_key
-CLOUDINARY_API_SECRET=your_secret
-GEMINI_API_KEY=your_gemini_api_key
-STRIPE_SECRET_KEY=your_stripe_key
-EMAIL_USER=your_email
-EMAIL_PASS=your_password
+PORT=8000<br>
+MONGO_URI=your_mongo_uri<br>
+JWT_SECRET=your_jwt_secret<br>
+CLOUDINARY_CLOUD_NAME=your_cloud_name<br>
+CLOUDINARY_API_KEY=your_key<br>
+CLOUDINARY_API_SECRET=your_secret<br>
+GEMINI_API_KEY=your_gemini_api_key<br>
+STRIPE_SECRET_KEY=your_stripe_key<br>
+EMAIL_USER=your_email<br>
+EMAIL_PASS=your_password<br>
+
+<br><br>
 Frontend .env
 env
 Copy
 Edit
-VITE_API_URL=http://localhost:8000
-VITE_STRIPE_PUBLIC_KEY=your_stripe_public_key
+VITE_API_URL=http://localhost:8000<br>
+VITE_STRIPE_PUBLIC_KEY=your_stripe_public_key<br>
+
+<br>
 4. Run the App
 bash
 Copy
@@ -99,11 +103,11 @@ Edit
 # Run backend
 cd backend
 npm run dev
-
+<br>
 # Run frontend
 cd ../frontend
 npm run dev
-<br>
+<br><br><br>
 📁 Folder Structure
 pgsql
 Copy
