@@ -1,5 +1,5 @@
 💰 Money Maven — Personal Finance Tracker
-A powerful and beautiful full-stack finance tracking app built with MERN Stack + AI.
+A powerful and beautiful full-stack finance tracking app built with MERN Stack.
 
 <img width="1024" height="1024" alt="ChatGPT Image Aug 7, 2025, 10_42_36 PM" src="https://github.com/user-attachments/assets/07df42c1-52aa-4e18-8e23-0b744e0c9972" />
 
