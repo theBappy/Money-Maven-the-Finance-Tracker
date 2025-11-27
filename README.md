@@ -108,10 +108,8 @@ npm run dev
 cd ../frontend
 npm run dev
 <br><br><br>
+
 📁 Folder Structure
-pgsql
-Copy
-Edit
 money-maven/
 ├── backend/
 │   ├── controllers/
